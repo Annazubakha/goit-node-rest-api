@@ -1,7 +1,10 @@
 import { Contact } from "../models/contact.js";
 
-export const listContacts = async () => {
-  return Contact.find();
+export const listContacts = async (filter, options) => {
+  return Contact.find({ owner: filter.owner })
+    .skip(options.skip)
+    .limit(options.limit)
+    .populate("owner", "email");
 };
 
 export const getContactById = async (contactId) => {
