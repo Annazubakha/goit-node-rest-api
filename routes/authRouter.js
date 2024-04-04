@@ -11,10 +11,11 @@ import {
   getCurrentController,
   logOutController,
   UpdateSubcriptionController,
+  updateAvatarController,
 } from "../controllers/authControllers.js";
 
 import { authenticate } from "../middlewares/authenticate.js";
-
+import { upload } from "../middlewares/upload.js";
 const AuthRouter = express.Router();
 
 AuthRouter.post("/register", validateBody(registerSSchema), registerController);
@@ -27,4 +28,11 @@ AuthRouter.patch(
   validateBody(subscriptionSchema),
   UpdateSubcriptionController
 );
+AuthRouter.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  updateAvatarController
+);
+
 export default AuthRouter;
